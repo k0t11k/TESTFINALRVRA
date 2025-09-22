@@ -104,7 +104,7 @@ Run
 
 dfx start --clean --background
 dfx deploy --network local
-# the asset canister serves the frontend at http://127.0.0.1:4943
+# the asset canister serves the frontend 
 
 
 Vite Dev
@@ -114,7 +114,7 @@ npm run dev
 # typically on port 5173
 
 
-To create an event in the UI, enter password 1298.
+To create an event in the UI, enter password 
 
 🚀 Deployment
 
@@ -240,7 +240,7 @@ Roadmap: Q3’25 ICP site; Q4 mobile; 2026 partnerships/festivals.
 
 Slide 10 — Close/CTA
 “We solve ticketing with ICP/Plug/NFT.”
-CTA: citointrues@gmail.com
+(https://t.me/Top_Project001)
  | Telegram: @TP_TicketsPartner_bot.
 Speaker: “let’s build the future of ticketing together — Q&A.”
 
@@ -316,9 +316,9 @@ We emphasize end-to-end completeness, UX polish, and a credible evolution path (
 
 📍 Demo Links (replace with real ones)
 
-Frontend canister: https://<frontend-canister-id>.icp1.io
+Frontend canister: https://khuoy-tqaaa-aaaai-q333a-cai.icp0.io/
 
-Backend (Candid UI): https://a4gq6-oaaaa-aaaab-qaa4q-cai.icp0.io/?id=<backend-canister-id>
+Backend (Candid UI): https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/?id=koxfe-fyaaa-aaaai-q332q-cai
 
 📞 Contacts
 
