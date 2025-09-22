@@ -1,170 +1,167 @@
-🎟️ RV.RA-ICP — Decentralized Event Tickets on Internet Computer
+🎟️ RV.RA-ICP — Decentralized Tickets on Internet Computer (ICP)
 
-RV.RA-ICP is a decentralized platform for creating events and issuing verifiable tickets on the Internet Computer (ICP).
-We combine Internet Identity (II), Plug Wallet, and Rust smart contracts so that tickets are:
+RV.RA-ICP is an on-chain platform for creating and selling event tickets built on ICP.
+We combine Internet Identity (II), Plug Wallet, and Rust smart contracts so tickets are:
 
-🔒 Secure — bound to the user’s ICP principal, tamper-resistant
+🔒 Secure — bound to the user’s ICP principal; forgery-proof.
 
-✅ Verifiable — every ticket includes a QR code for easy validation
+✅ Verifiable — each ticket carries a QR code for validation.
 
-🌍 Truly on-chain — core data and business logic live in canisters
+🌍 Truly on-chain — data and business logic live in ICP canisters.
 
-🎨 Delightful — modern UI/UX, dark/light themes, animations, responsive design
+🎨 Modern — refined UI/UX, dark/light themes, animations, responsive design.
 
-The project evolved from the earlier “Tickets Partner” (a Telegram-first ticketing flow) into a fully on-chain ICP dapp. We keep Telegram as a parallel channel for growth and onboarding, while ICP is the primary product line.
+The project evolved from the Telegram-based Tickets Partner MVP. The ICP dapp is now the primary product; the Telegram branch remains a high-velocity onboarding and growth channel.
 
-✨ Key Features
+✨ Features
 👥 Auth & Wallets
 
-Internet Identity (passwordless, privacy-preserving login)
+Internet Identity — passwordless login.
 
-Plug Wallet integration with ICP balance display
+Plug Wallet — one-click connection and ICP balance display.
 
-All tickets are bound to the holder’s principal (II/Plug)
+All tickets are strictly tied to the user’s principal (II or Plug).
 
 🎫 Events
 
-Create events (UI protected by password: 1298)
+Create events protected by a UI password 1298.
 
-Edit/Delete your own events
+Edit/Delete your own events.
 
-Dual pricing: UAH and ICP (e8s)
+Dual pricing: UAH and ICP (e8s).
 
-Seeded demo events without owner (editable by anyone for onboarding)
+Seeded demo events (no owner) are editable by anyone for onboarding.
 
 🛒 Tickets
 
-Purchase → instant ticket minting with QR code
+Purchase → immediate ticket issuance with QR code.
 
-My Tickets section lists all tickets owned by the current principal
+My Tickets lists all tickets for the current principal.
 
-Ticket deletion (simple moderation/demo model)
+Ticket deletion (simple moderation/demo model).
 
 🎨 Design & UX
 
-Modern event cards, fluid animations and micro-interactions
+Clean cards, smooth micro-interactions, polished animations.
 
-Ergonomic filters: search, category, date
+Smart filters: search, category, date.
 
-Dark/Light theme, accessible controls, responsive layout
+Dark/Light theme, responsive layout, accessibility (ARIA, focus states).
 
-🤖 AI Helper (Roadmap)
+🤖 AI Integrations (Roadmap)
 
-Integrations (e.g., Cofein / coffee.ai) for:
-
-auto-generating event descriptions,
-
-personalized recommendations,
-
-semantic search and ticket summaries.
+Connect Cofein/coffee.ai: generate descriptions, personalize recommendations, enable semantic search.
 
 🧱 Architecture
 ┌──────────── Frontend (Vite + Vanilla JS + Custom CSS) ────────────┐
-│ Auth (II/Plug) · UI/UX · Filters · QR · Theme · Toasts · Modals    │
-└──────────────▲──────────────────────────┬───────────────────────────┘
+│ Auth (II/Plug) · UI/UX · Filters · QR · Themes · Toasts · Modals  │
+└──────────────▲──────────────────────────┬──────────────────────────┘
                │                          │
      HttpAgent/Plug Actor                 │ Candid
                │                          │
         ┌──────┴─────────┐        ┌───────▼─────────────────────────┐
-        │ Backend Canister│        │ Stable Storage (ic-stable-structures) │
-        │ Rust + ic-cdk   │        │ BTreeMap / Cell: events, tickets, ids │
-        └─────────────────┘        └───────────────────────────────────────┘
+        │ Canister (Rust) │        │ Stable Storage (BTreeMap / Cell)│
+        │ ic-cdk + Candid │        │ Events, tickets, counters, flags │
+        └─────────────────┘        └──────────────────────────────────┘
 
 
-Smart contract (Rust, ic-cdk)
+Smart Contract (Rust, ic-cdk)
 
-Event: id, metadata, prices (price_uah, price_e8s), created_by
+Event: id, metadata, price_uah, price_e8s, created_by (opt principal).
 
-Ticket: event snapshot + qr_code, bound to caller principal
+Ticket: snapshot of event fields + qr_code, bound to the caller.
 
-Access rules: only created_by can edit/delete (seeded events are globally editable)
+Access control: only created_by can update/delete; seeded events are open to all.
 
-Storage: StableBTreeMap for events/tickets (Candid-encoded), Cell for counters/flags
+Storage: StableBTreeMap (Candid-encoded), Cell for counters/flags.
 
 Frontend
 
-Sign-in with II and/or Plug
+Login via II and/or Plug, live ICP balance in header.
 
-Display ICP balance from Plug
+Create/Update/Delete events (UI password 1298 for creation).
 
-Create/Edit/Delete events (password-gated creation)
-
-Buy ticket → show in My Tickets with QR
+Purchase → ticket appears in My Tickets with QR.
 
 🧪 Quick Start (Local)
+
 Requirements
 
-Rust with target wasm32-unknown-unknown
+Rust target: wasm32-unknown-unknown
 
 DFX SDK (recommended dfx 0.29+)
 
-Node.js (v18/v20) and npm (10+)
+Node.js (v18/v20), npm (10+)
 
 Install
-# repo root
+
+# in repo root
 npm install
 cd frontend && npm install
 
-Run locally
+
+Run
+
 dfx start --clean --background
 dfx deploy --network local
 # the asset canister serves the frontend at http://127.0.0.1:4943
 
-Vite dev server
+
+Vite Dev
+
 cd frontend
 npm run dev
-# Vite will start a local port (typically 5173)
+# typically on port 5173
 
 
-To create an event via UI, use password 1298.
+To create an event in the UI, enter password 1298.
 
 🚀 Deployment
 
 Mainnet: dfx deploy --network ic
 
-Playground: sometimes restricts asset canisters; for stable demos prefer mainnet or local.
+Note: some playgrounds restrict asset canisters. For stable demos, use mainnet or local.
 
 🔐 Security Model
 
-Principal-bound: each ticket is linked to the holder’s ICP principal (II/Plug)
+Principal-bound: each ticket is owned by a specific principal.
 
-Safe auth: Internet Identity is passwordless; Plug signs requests/transactions
+Secure Authentication: II (passwordless), Plug (signed requests/transfers).
 
-Access control
+Access Control
 
-create_event is open in the canister, but the UI requires a password (1298)
+create_event is open at canister level (UI enforces password 1298).
 
-update_event / delete_event restricted to created_by (unless seeded without owner)
+update_event / delete_event — only the event’s created_by (seeded events are open).
 
-buy_ticket requires an authenticated caller (II/Plug) — anonymous is rejected
+buy_ticket rejects anonymous (requires II/Plug).
 
 💳 Payments (Roadmap)
 
-The current purchase flow is a payment stub (for UX validation and ticket issuance).
-Next steps: real ICP transfer via Plug:
+Current build uses a stub UX (purchase + ticket issuance). Next steps:
 
-compute e8s → prepare transfer/requestTransfer
+Real ICP transfers via Plug (requestTransfer) using price_e8s.
 
-store tx hash/receipt for provenance
+Persist tx hash/receipts and link them to tickets.
 
-optional canister-side verification & receipts
+On-chain/contract-side verification of receipts.
 
-🧭 “Tickets Partner” (Telegram branch)
+🧭 Telegram Branch “Tickets Partner”
 
-The project started with a Telegram-first approach: purchases, notifications, referrals, multi-crypto (NOWPayments), Monobank, admin tools.
-Now ICP dapp is the primary product, while Telegram remains a parallel growth and onboarding channel (newsletter, mini-app, Web2-friendly entry point).
+Legacy branch with purchases, notifications, referral program, NOWPayments/Monobank, and admin panel.
+Primary product is the ICP dapp; Telegram remains an onboarding/retention channel (mini-app, broadcasts).
 
 🧰 Tech Stack
 
 Backend: Rust, ic-cdk, ic-stable-structures, Candid
 
-Frontend: Vite, Vanilla JS, custom design system (no heavy UI frameworks)
+Frontend: Vite, Vanilla JS, custom design system
 
 Auth: Internet Identity, Plug Wallet
 
 Deploy: ICP canisters, dfx
 
-🧩 Candid API (Short)
+🧩 Compact API (Candid)
 
 get_events() -> vec Event
 
@@ -178,73 +175,155 @@ buy_ticket(event_id: u64) -> Result<Ticket, text>
 
 get_my_tickets() -> vec Ticket
 
-Models
 Event { id: u64, title, date, time, city, category, venue, image, description, price_uah: u64, price_e8s: u64, created_by: opt principal }
 Ticket { id: text, event_id: u64, title, date, time, city, venue, category, price_uah: u64, price_e8s: u64, qr_code: text }
 
 🗺️ Roadmap
 
-Real ICP payments via Plug
+Real ICP payments via Plug with receipt storage.
 
-Organizer roles & quotas (multi-org, moderation, issuance caps)
+Organizer roles, capacities/quotas, moderation.
 
-Secondary market (ticket transfer/listings)
+Secondary market / ticket transfers (with royalties).
 
-AI features (description generation, similar events, personalized feed)
+AI recommendations/generation/search.
 
-EN/UA localization, mobile-first refinements, offline caching
+EN/UA localization, mobile-first hardening, offline cache.
 
-Verifier canister for scanning/validation on entry
+Dedicated verifier canister (scan/offline list).
 
-🏆 Hackathon Alignment (WCHL25-style judging)
+📽️ Presentation (10 Slides)
 
-We tuned the project to typical Web3 judging dimensions (see DoraHacks/WCHL25 guidance):
+Slide 1 — Title
+RV.RA-ICP: Decentralized Ticketing Platform on ICP
+Subtitle: “Transforming ticketing with blockchain for security, transparency, and usability.”
+Assets: logo, “Team Tickets Partner (RV.RA-ICP)”, “August 2025”, “ICP WCHL25 Hackathon”.
+Visual: concert background with blockchain elements (chains/NFT tickets).
+Speaker: greet, then state the core pain points we solve.
 
-Impact & Usefulness — on-chain, fraud-resistant tickets; transparent flows; low-friction II login and Plug wallet
+Slide 2 — Market Problems
+Fraud/counterfeits, hidden fees (up to 30%), centralization, low organizer engagement.
+Include stats/citations directly on the slide (e.g., industry reports).
+Speaker: “traditional platforms are vulnerable — users lose trust, organizers lose revenue.”
 
-Technical Depth — Rust canister with stable data structures, strict access control, e8s pricing, principal-bound assets, QR issuance
+Slide 3 — Our Solution
+ICP dapp + Telegram integration; NFT tickets; low fees on ICP; AI personalization.
+Diagram “Problem → Solution”, plus dapp/bot screenshots.
+Speaker: “we started with Telegram MVP; ICP web app brings global scale.”
 
-User Experience — polished UI/UX, theming, micro-interactions, accessible patterns (ARIA, keyboard focus), immediate feedback (toasts, skeletons)
+Slide 4 — Why ICP
+Decentralization (canister hosting), scale/cost, security, integrations (II/Plug).
+Table “ICP vs Cloud” (cost/speed/security).
+Speaker: “ICP gives resilience and OPEX savings.”
 
-Decentralization & Innovation — core logic on ICP, asset hosting in canisters; extensible toward real payments and a secondary market
+Slide 5 — Plug Wallet & II
+Plug: seamless ICP payments; II: passwordless auth and privacy.
+Flow: user → wallet → ICP.
+Speaker: “we reduce friction and boost conversion.”
 
-Sustainability & Community — clear roadmap (roles, AI, payments), dual-channel growth (ICP + Telegram), production-minded architecture
+Slide 6 — NFT Tickets
+Unique NFT + QR; anti-fraud; secondary market + royalties (5–10%).
+Speaker: “tickets become assets/souvenirs — stronger engagement and new revenue.”
 
-We emphasize end-to-end completeness (from smart contract storage to professional UX) and a credible path to production: real payments, organizer tooling, and a verifiable entry flow.
+Slide 7 — Ecosystem
+Telegram → ICP Site → iOS/Android; multi-channel = better retention/reach.
+Speaker: “Telegram for virality, ICP for scale/decentralization.”
 
-📎 Testing Notes
+Slide 8 — Business Model
+Revenues: 5–10% fee, NFT royalties, premium AI analytics.
+Low OPEX thanks to ICP. Target: UA + global Web3.
+Speaker: “sustainable unit economics and scalable model.”
 
-Event creation UI requires the password 1298
+Slide 9 — Value & Roadmap
+Users: security, convenience, AI. Organizers: analytics, low fees, global reach.
+Roadmap: Q3’25 ICP site; Q4 mobile; 2026 partnerships/festivals.
 
-Seeded events are editable by anyone (demo onboarding)
+Slide 10 — Close/CTA
+“We solve ticketing with ICP/Plug/NFT.”
+CTA: citointrues@gmail.com
+ | Telegram: @TP_TicketsPartner_bot.
+Speaker: “let’s build the future of ticketing together — Q&A.”
 
-You must sign in with II or connect Plug to buy a ticket
+We included the key narrative in this README so judges can cross-check code, docs, presentation, and demo instantly.
 
-Plug ICP balance is displayed in the header
+🏆 Alignment with WCHL25 Judging Criteria (DoraHacks)
 
-After purchase, the ticket appears in My Tickets with a QR
+Uniqueness
 
-📍 Demo Links (replace with real IDs)
+ICP-native ticketing with principal-bound tickets, II/Plug, dual pricing (UAH + ICP), and fully on-chain storage.
+
+Smooth evolution from Telegram MVP to a complete ICP product.
+
+Revenue Model
+
+Fees 5–10% (below market), NFT royalties, premium AI features.
+
+Low OPEX via canister hosting.
+
+Full-Stack Development
+
+End-to-end: frontend (Vite/JS), canister (Rust), stable storage, auth, purchase → ticket issuance with QR.
+
+Local and mainnet deployment via dfx.
+
+Presentation Quality
+
+Clear story: problems → solution → ICP → UX → business → roadmap → CTA.
+
+Prepared speaker notes for each slide.
+
+Utility & Value
+
+Real industry pain: fraud, high fees, poor UX.
+
+ICP provides security, transparency, portability, and new value (NFT).
+
+Demo Video Quality (recording plan)
+
+90–120s: II/Plug login → balance → filters → create event (password) → purchase → My Tickets + QR → (optional) Candid UI.
+
+Short architecture bumper and CTA.
+
+Code Quality
+
+Rust canister: ic-cdk, ic-stable-structures, typed Candid, access control.
+
+Frontend: clean modules, defensive UI, toasts/modals, accessibility.
+
+Documentation (covered here)
+
+Intro, architecture, local build/deploy, ICP features (II/Plug, canisters), demo links (placeholders), challenges & next steps.
+
+Technical Difficulty
+
+Stable storage, Candid serialization, principal-bound assets, II/Plug integration.
+
+Next: verified payments, verifier canister, secondary market (higher complexity).
+
+Bonus Points (we cover/plan)
+
+Architecture diagram — included.
+
+User-flow — covered in presentation/demo.
+
+PocketIC tests — on the roadmap (unit/prop tests for business rules).
+
+Frontend on ICP — yes.
+
+Exceptional UX — custom design, themes, animations, accessibility.
+
+We emphasize end-to-end completeness, UX polish, and a credible evolution path (Plug payments, roles, secondary market, AI) to maximize scoring and advance to the next round.
+
+📍 Demo Links (replace with real ones)
 
 Frontend canister: https://<frontend-canister-id>.icp1.io
 
-Backend canister (Candid UI): https://a4gq6-oaaaa-aaaab-qaa4q-cai.icp0.io/?id=<backend-canister-id>
-
-🤝 Contributing
-
-PRs are welcome—especially around accessibility/UX polish, tests, and feature ideas (organizer roles, quotas, payment receipts, AI ranking).
-Please open an issue with context and repro steps when applicable.
-
-📄 License
-
-Proprietary. All rights reserved.
+Backend (Candid UI): https://a4gq6-oaaaa-aaaab-qaa4q-cai.icp0.io/?id=<backend-canister-id>
 
 📞 Contacts
 
-Telegram (project): @TicketsPartners
+Telegram (project): (https://t.me/Top_Project001)
 
-Bot (Telegram branch): @TP_TicketsPartner_bot
 
-Email: citointrues@gmail.com
 
 Location: Kyiv, Ukraine
